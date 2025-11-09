@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube 字幕查詢工具設置</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 400px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .header-icon {
+      font-size: 28px;
+      margin-right: 12px;
+    }
+
+    .header-text h1 {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .header-text p {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #333;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: #555;
+    }
+
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 13px;
+      font-family: 'Courier New', monospace;
+      transition: border-color 0.2s;
+    }
+
+    input[type="password"]:focus,
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #4285f4;
+      box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #4285f4;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #3367d6;
+      box-shadow: 0 2px 4px rgba(66, 133, 244, 0.3);
+    }
+
+    .btn-primary:active {
+      background: #2d56b8;
+    }
+
+    .btn-secondary {
+      background: #e8e8e8;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #d8d8d8;
+    }
+
+    .status-message {
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .status-message.success {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+      display: block;
+    }
+
+    .status-message.error {
+      background: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+      display: block;
+    }
+
+    .info-box {
+      background: #e3f2fd;
+      border: 1px solid #bbdefb;
+      border-radius: 4px;
+      padding: 12px;
+      font-size: 12px;
+      color: #1565c0;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .divider {
+      height: 1px;
+      background: #e0e0e0;
+      margin: 20px 0;
+    }
+
+    .footer {
+      font-size: 11px;
+      color: #999;
+      text-align: center;
+      padding-top: 10px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .key-display {
+      background: #f9f9f9;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      word-break: break-all;
+      color: #666;
+      margin-top: 6px;
+      border: 1px solid #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-icon">🎬</div>
+      <div class="header-text">
+        <h1>字幕查詢工具</h1>
+        <p>由 Gemini AI 驅動</p>
+      </div>
+    </div>
+
+    <div id="statusMessage" class="status-message"></div>
+
+    <div class="section">
+      <div class="section-title">Gemini API 設置</div>
+      
+      <div class="info-box">
+        <strong>需要 API 金鑰</strong>
+        請在 <a href="https://aistudio.google.com/app/apikeys" target="_blank" style="color: #1565c0;">Google AI Studio</a> 獲取免費的 Gemini API 金鑰
+      </div>
+
+      <div class="form-group">
+        <label for="apiKey">API 金鑰</label>
+        <input type="password" id="apiKey" placeholder="貼上您的 Gemini API 金鑰">
+      </div>
+
+      <div class="button-group">
+        <button class="btn-primary" id="saveBtn">保存設置</button>
+        <button class="btn-secondary" id="testBtn">測試連接</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section">
+      <div class="section-title">使用說明</div>
+      <div style="font-size: 12px; line-height: 1.6; color: #666;">
+        <p style="margin-bottom: 8px;"><strong>✓ 單字查詢：</strong>在 YouTube 字幕上點擊任何英文單字</p>
+        <p style="margin-bottom: 8px;"><strong>✓ 多字查詢：</strong>長按並拖曳滑鼠選取多個單字</p>
+        <p><strong>✓ 查看結果：</strong>分析結果將顯示在螢幕右側</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      版本 1.0.0 | YouTube 字幕查詢工具
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
